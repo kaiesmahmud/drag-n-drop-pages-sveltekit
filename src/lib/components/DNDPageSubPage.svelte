@@ -6,7 +6,8 @@
 	export let nodes 
 	export let node,parentId
 	
-	let inputStyle="p-5 bg-white/10 border-slate-500 focus:border-none w-2/3 rounded"
+	let inputStyle="p-3 md:p-5 bg-white/10 border-slate-500 focus:border-none w-2/3 rounded"
+
 	const flipDurationMs = 300;
 	function handleDndConsider(e) {
 		node.items = e.detail.items;
@@ -66,6 +67,7 @@
 
 	let needtoAddNewPage = false
 	const handleNeedtoAddNewPage = ()=>{
+		openUpdateSection = false
 		needtoAddNewPage = !needtoAddNewPage
 	}
 	let subPageName = ""
@@ -79,15 +81,19 @@
 		console.log(pageObj)
 		subPageName =""
 		//Add Node to Parent items 
-
-		nodes[node.id].items.push({id:pageURl})
-		//Add Node in main Obj
-		nodes = {...nodes,[pageURl]: pageObj}
-		console.log(nodes)
+		if(!nodes[pageURl]){
+			nodes[node.id].items.push({id:pageURl})
+			//Add Node in main Obj
+			nodes = {...nodes,[pageURl]: pageObj}
+			console.log(nodes)
+		}else{
+			alert("Duplicate page Name !")
+		}
 }
 	let updateName = ""
 	let openUpdateSection = false 
 	const handleUpdate = () => {
+		needtoAddNewPage = false
 		openUpdateSection = !openUpdateSection
 		console.log("got Node to update", node)
 		updateName = node.id ;
@@ -95,17 +101,17 @@
 	}
 </script>
 
-<div class=" w-full  bg-white/10 rounded  p-2 transition-all ease-in">
-	<div class="flex justify-between  p-3 rounded items-center">
+<div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in">
+	<div class="flex justify-between p-2 md:p-3 rounded items-center">
 		<div>
-			<p class="text-xl font-semibold capitalize">{node?.name}</p> 
+			<p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
 			<!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
 		</div>
 		<div>
 			{#if node?.id != "home"}
 				{#if node?.hasOwnProperty("items")}
 						{#if node?.items?.length != 0}
-							<button on:click={handleSubPageView} class="p-2 rounded bg-slate-800 text-2xl">
+							<button on:click={handleSubPageView} class="bg-slate-800 p-1 md:p-2 rounded  text-lg md:text-2xl">
 								{#if viewSubPage}
 								<Icon icon="mdi:hide" />
 								{:else}
@@ -113,7 +119,7 @@
 								{/if}
 							</button>
 						{/if}
-				<button on:click={handleNeedtoAddNewPage} class={` p-2 rounded ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} text-2xl`}>
+				<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  text-lg md:text-2xl`}>
 				{#if needtoAddNewPage}
 					<Icon icon="icomoon-free:cross" />
 				{:else}
@@ -122,10 +128,10 @@
 				</button>
 				{/if}
 			
-			<button on:click={handleUpdate} class="text-cyan-700 p-2 rounded bg-cyan-200 text-2xl">
+			<button on:click={handleUpdate} class="text-cyan-700 bg-cyan-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
 				<Icon icon="ic:twotone-drive-file-rename-outline" />
 			</button>
-			<button on:click={deleteNode} class="text-red-500 p-2 rounded bg-red-200 text-2xl">
+			<button on:click={deleteNode} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
 				<Icon icon="material-symbols:delete" />
 			</button>
 			{/if}
@@ -134,13 +140,13 @@
 			</div> -->
 		</div>
 	</div>
-	
+	<!-- =========== Add Sub page ============== -->
 	{#if node?.hasOwnProperty("items")}
 		{#if needtoAddNewPage}
-			<div class="m-2 p-1 flex items-center gap-1">
-				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page Name" />
-				<button on:click={handleAddSubPages} class="text-green-800 p-5 rounded bg-green-200 text-2xl flex ">
-					<Icon icon="carbon:add-filled" />
+			<div class="md:m-2 md:p-1 flex items-center gap-1">
+				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page" />
+				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded py-3 px-2  md:p-5 flex ">
+					<!-- <Icon icon="carbon:add-filled" /> -->
 					<p class="text-sm">Add Page</p>
 				</button>
 			</div>
@@ -150,16 +156,16 @@
 	{#if openUpdateSection}
 		<div class="">
 			<input bind:value={updateName} class={inputStyle}/>
-			<button on:click={handleUpdate} class="bg-green-500/10 p-5 rounded">Update</button>
+			<button on:click={handleUpdate} class="bg-green-500/10 p-3 md:p-5 rounded">Update</button>
 		</div>
 	{/if}
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
-			<section class=" p-2 rounded w-[90%] min-w-[400px] transition-all ease-in" use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
+			<section class=" p-1 md:p-2 rounded transition-all ease-in" use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
-						<div animate:flip="{{duration: flipDurationMs}}" class="p-2 m-3">
+						<div animate:flip="{{duration: flipDurationMs}}" class="p-1 md:p-2 m-1 md:m-3">
 							<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} />
 							<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
 						</div>
@@ -169,5 +175,11 @@
 	{/if}
 
 </div>
+<style>
+	section{
+		overflow-y: auto ;
+		height: auto;
+	}
+</style>
 
 
