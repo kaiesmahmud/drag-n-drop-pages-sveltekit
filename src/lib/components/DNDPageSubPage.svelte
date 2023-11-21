@@ -95,7 +95,7 @@
 	}
 </script>
 
-<div class=" w-full  bg-white/10 rounded  p-2">
+<div class=" w-full  bg-white/10 rounded  p-2 transition-all ease-in">
 	<div class="flex justify-between  p-3 rounded items-center">
 		<div>
 			<p class="text-xl font-semibold capitalize">{node?.name}</p> 
@@ -142,7 +142,6 @@
 				<button on:click={handleAddSubPages} class="text-green-800 p-5 rounded bg-green-200 text-2xl flex ">
 					<Icon icon="carbon:add-filled" />
 					<p class="text-sm">Add Page</p>
-					
 				</button>
 			</div>
 		{/if}
@@ -165,7 +164,6 @@
 							<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
 						</div>
 					{/each}
-							
 			</section>
 		{/if}
 	{/if}
