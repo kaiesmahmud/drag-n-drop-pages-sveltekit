@@ -11,7 +11,9 @@ body{
     background-color: #2b4162;
     background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
     min-height: 100vh;
+    width: 100vw;
     color: white;
+    max-width: 4000px;
     
 }
 ::-webkit-scrollbar {
