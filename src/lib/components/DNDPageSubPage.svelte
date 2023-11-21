@@ -1,10 +1,12 @@
 <script>
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';
-	
+	import Icon from '@iconify/svelte';
+
 	export let nodes 
 	export let node,parentId
 	
+	let inputStyle="p-5 bg-white/10 border-slate-500 focus:border-none w-2/3 rounded"
 	const flipDurationMs = 300;
 	function handleDndConsider(e) {
 		node.items = e.detail.items;
@@ -92,99 +94,80 @@
 		
 	}
 </script>
-<div class="flex">
-	<div>
-		<b style="color:{node?.color}">{node?.name}</b> 
-		<button on:click={logme}>LogMe</button>
-	</div>
-		{#if node?.id != "home"}
-			{#if node?.hasOwnProperty("items")}
-					{#if node?.items?.length != 0}
-						<button on:click={handleSubPageView}>{(viewSubPage)?"Hide":"View"}</button>
-					{/if}
-			<button on:click={handleNeedtoAddNewPage} class="add">{(needtoAddNewPage)?"X":"Add"}</button>
-			{/if}
-		
-		<button on:click={handleUpdate} class="update">Update</button>
-		<button on:click={deleteNode} class="delete">Delete</button>
-		{/if}
-</div>
 
-{#if node?.hasOwnProperty("items")}
-	{#if needtoAddNewPage}
+<div class=" w-full  bg-white/10 rounded  p-2">
+	<div class="flex justify-between  p-3 rounded items-center">
+		<div>
+			<p class="text-xl font-semibold capitalize">{node?.name}</p> 
+			<!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
+		</div>
+		<div>
+			{#if node?.id != "home"}
+				{#if node?.hasOwnProperty("items")}
+						{#if node?.items?.length != 0}
+							<button on:click={handleSubPageView} class="p-2 rounded bg-slate-800 text-2xl">
+								{#if viewSubPage}
+								<Icon icon="mdi:hide" />
+								{:else}
+								<Icon icon="mdi:eye" />
+								{/if}
+							</button>
+						{/if}
+				<button on:click={handleNeedtoAddNewPage} class={` p-2 rounded ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} text-2xl`}>
+				{#if needtoAddNewPage}
+					<Icon icon="icomoon-free:cross" />
+				{:else}
+					<Icon icon="carbon:add-filled" />
+				{/if}
+				</button>
+				{/if}
+			
+			<button on:click={handleUpdate} class="text-red-500 p-2 rounded bg-red-200 text-2xl">
+				<Icon icon="ic:twotone-drive-file-rename-outline" />
+			</button>
+			<button on:click={deleteNode} class="text-red-500 p-2 rounded bg-red-200 text-2xl">
+				<Icon icon="material-symbols:delete" />
+			</button>
+			{/if}
+	
+		</div>
+	</div>
+	
+	{#if node?.hasOwnProperty("items")}
+		{#if needtoAddNewPage}
+			<div class="m-2 p-1 flex items-center gap-1">
+				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page Name" />
+				<button on:click={handleAddSubPages} class="text-green-800 p-5 rounded bg-green-200 text-2xl flex ">
+					<Icon icon="carbon:add-filled" />
+					<p class="text-sm">Add Page</p>
+					
+				</button>
+			</div>
+		{/if}
+	{/if}
+	<!-- ======= Update Page Name ========== -->
+	{#if openUpdateSection}
 		<div class="">
-			<input bind:value={subPageName} />
-			<button on:click={handleAddSubPages}>Add SubPage</button>
+			<input bind:value={updateName} class={inputStyle}/>
+			<button on:click={handleUpdate} class="bg-green-500/10 p-5 rounded">Update</button>
 		</div>
 	{/if}
-{/if}
-{#if openUpdateSection}
-	<div class="">
-		<input bind:value={updateName} />
-		<button on:click={handleUpdate}>Update</button>
-	</div>
-{/if}
-{#if viewSubPage}
-	{#if node?.hasOwnProperty("items")}
-		<section use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
-						 on:consider={handleDndConsider} 
-						 on:finalize={handleDndFinalize}>		
-				{#each node.items as item(item.id)}
-					<div animate:flip="{{duration: flipDurationMs}}" class="item">
-						<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} />
-						<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
-					</div>
-				{/each}
-						
-		</section>
+	{#if viewSubPage}
+		{#if node?.hasOwnProperty("items")}
+			<section class=" p-2 rounded w-[90%] min-w-[400px]" use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
+							 on:consider={handleDndConsider} 
+							 on:finalize={handleDndFinalize}>		
+					{#each node.items as item(item.id)}
+						<div animate:flip="{{duration: flipDurationMs}}" class="p-2 m-3">
+							<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} />
+							<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
+						</div>
+					{/each}
+							
+			</section>
+		{/if}
 	{/if}
-{/if}
+
+</div>
 
 
-<style>
-	section {
-		width: auto;
-		max-width: 600px;
-		border: 0px solid black;
-		padding: 0.4em;
-        /* this will allow the dragged element to scroll the list */
-		overflow-y: auto ;
-		height: auto;
-		background-color: rgba(100, 100, 100, 0.1); 
-	}
-	div {
-		width: 90%;
-		padding: 0.3em;
-		/* border: 0px solid blue; */
-		margin: 0.15em 0;
-	}
-	.item{
-		background-color: rgba(00, 100, 100, 0.1);
-		border: 2px solid white
-	}
-	.flex{
-		display:flex ;
-		gap: 20px;
-		justify-content: space-between;
-	}
-	.delete{
-		background-color: orangered; 
-		padding:5px;
-		border-radius:10%;
-		border: none;
-}
-	.update{
-		background-color: palevioletred; 
-		padding:5px;
-		border-radius:10%;
-		border: none;
-}
-	.add{
-		background:teal; 
-		border-radius:10%;
-		border: none;
-	}
-	input{
-		padding: 5px;
-	}
-</style>

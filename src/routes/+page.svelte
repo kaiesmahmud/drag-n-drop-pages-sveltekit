@@ -84,30 +84,25 @@
 		console.log(nodes)
 		
 	}
+	let inputStyle="p-5 bg-white/10 border-slate-500 focus:border-none "
 </script>
-<h3>
-	Try drag-n-drop
-</h3>
-<div>
-	<input bind:value={newPageName} />
-	<button on:click={handleAddNewPage}>Add New Page</button>
+<div class="flex flex-col items-center justify-center gap-10 py-10 px-3">
+	<h3 class="p-2 font-bold text-5xl text-transparent capitalize bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+		Try drag-n-drop
+	</h3>
+	<div class="p-5">
+		<input bind:value={newPageName} class={inputStyle} placeholder="Type Page Name Here"/>
+		<button class="bg-green-500/10 p-5 rounded" on:click={handleAddNewPage}>Add New Page</button>
+	</div>
+	
+	<div class="w-full md:max-w-[80%] lg:max-w-[60%]">
+		<DndPageSubPage inputStyle={inputStyle} node={nodes.node1} bind:nodes={nodes} parentId={parentId}/>
+
+	</div>
+	
+	<br/>
 </div>
 
-<DndPageSubPage node={nodes.node1} bind:nodes={nodes} parentId={parentId}/>
 
-<br/>
-
-<style>
-	button{
-		border:none;
-		border-radius:5px;
-		margin:5px ;
-		padding:10px;
-	}
-	input{
-		padding:10px;
-	}
-
-</style>
 
 
