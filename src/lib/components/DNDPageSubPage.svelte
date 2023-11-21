@@ -122,14 +122,16 @@
 				</button>
 				{/if}
 			
-			<button on:click={handleUpdate} class="text-red-500 p-2 rounded bg-red-200 text-2xl">
+			<button on:click={handleUpdate} class="text-cyan-700 p-2 rounded bg-cyan-200 text-2xl">
 				<Icon icon="ic:twotone-drive-file-rename-outline" />
 			</button>
 			<button on:click={deleteNode} class="text-red-500 p-2 rounded bg-red-200 text-2xl">
 				<Icon icon="material-symbols:delete" />
 			</button>
 			{/if}
-	
+			<!-- <div class="text-red-500 p-2 rounded bg-red-200 text-2xl">
+				<Icon icon="ph:dots-three-circle-vertical-bold" />
+			</div> -->
 		</div>
 	</div>
 	
@@ -154,7 +156,7 @@
 	{/if}
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
-			<section class=" p-2 rounded w-[90%] min-w-[400px]" use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
+			<section class=" p-2 rounded w-[90%] min-w-[400px] transition-all ease-in" use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}

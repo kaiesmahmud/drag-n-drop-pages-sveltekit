@@ -90,6 +90,7 @@
 	<h3 class="p-2 font-bold text-5xl text-transparent capitalize bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
 		Try drag-n-drop
 	</h3>
+	
 	<div class="p-5">
 		<input bind:value={newPageName} class={inputStyle} placeholder="Type Page Name Here"/>
 		<button class="bg-green-500/10 p-5 rounded" on:click={handleAddNewPage}>Add New Page</button>
@@ -97,11 +98,12 @@
 	
 	<div class="w-full md:max-w-[80%] lg:max-w-[60%]">
 		<DndPageSubPage inputStyle={inputStyle} node={nodes.node1} bind:nodes={nodes} parentId={parentId}/>
-
 	</div>
-	
-	<br/>
+
 </div>
+<footer class=" text-center italic text-sm text-transparent capitalize bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-300">
+	Design & Updated by Kaies Mahmud Nehal
+</footer>
 
 
 
