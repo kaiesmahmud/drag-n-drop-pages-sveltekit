@@ -89,6 +89,7 @@
 		}else{
 			alert("Duplicate page Name !")
 		}
+		needtoAddNewPage = false
 }
 	let updateName = ""
 	let openUpdateSection = false 
@@ -145,9 +146,9 @@
 		{#if needtoAddNewPage}
 			<div class="md:m-2 md:p-1 flex items-center gap-1">
 				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page" />
-				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded py-3 px-2  md:p-5 flex ">
-					<!-- <Icon icon="carbon:add-filled" /> -->
-					<p class="text-sm">Add Page</p>
+				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded py-3 px-2  md:p-5 flex text-xl">
+					<Icon icon="carbon:add-filled" />
+					<!-- <p class="text-sm">Add Page</p> -->
 				</button>
 			</div>
 		{/if}
