@@ -57,7 +57,7 @@
 </svelte:head>
 <div class="w-[100%] min-h-screen">
 	<div class=" flex flex-col items-start md:items-center  justify-center gap-10 py-10 px-3">
-		<h3 class="p-2 font-bold text-4xl lg:text-8xl text-transparent capitalize bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+		<h3 class="p-2 font-bold text-4xl lg:text-8xl text-transparent capitalize bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
 			Try drag-n-drop
 		</h3>
 		<h3 class="p-2 font-bold text-4xl lg:text-8xl text-transparent capitalize bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
