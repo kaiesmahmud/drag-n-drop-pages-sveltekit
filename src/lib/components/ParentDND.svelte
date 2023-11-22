@@ -27,24 +27,29 @@
 
 	const handleAddNewPage = ()=> {
 		//Create a Node Object 
-		let  pageName = newPageName
-		let  pageURl = newPageName.toLowerCase().replace(/ /g, '-')
-		let pageObj = {
-			name : pageName, id: pageURl , items:[]
-		}
-		console.log(pageObj)
-		newPageName = ""
-        if(!nodes[pageURl]){
-            //Add Node to Home items 
-            nodes.node1.items.push({id:pageURl})
-    
-            //Add New Page to Main Obj
-            nodes = {...nodes, [pageURl] : pageObj}
-            console.log(nodes)
-        }else{
-			alert("Duplicate page Name !")
-		}
+		if(newPageName?.length > 3){
+			console.log("length ",newPageName.length)
+			let  pageName = newPageName
+			let  pageURl = newPageName?.toLowerCase().replace(/ /g, '-')
+			let pageObj = {
+				name : pageName, id: pageURl , items:[]
+			}
+			console.log(pageObj)
+			newPageName = ""
+			if(!nodes[pageURl]){
+				//Add Node to Home items 
+				nodes.node1.items.push({id:pageURl})
 		
+				//Add New Page to Main Obj
+				nodes = {...nodes, [pageURl] : pageObj}
+				console.log(nodes)
+			}else{
+				alert("Duplicate page Name !")
+			}
+		}else{
+			alert("Please Insert a new page Name !")
+
+		}
 	}
 	let inputStyle="p-3 md:p-5 bg-white/10 border-slate-500 focus:border-none w-[70%] rounded"
 	const handleSaveList = () =>{
