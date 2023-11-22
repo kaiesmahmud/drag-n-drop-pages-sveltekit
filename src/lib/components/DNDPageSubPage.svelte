@@ -100,45 +100,60 @@
 		updateName = node.id ;
 		
 	}
+	let showSettings = false ;
+	const handleShowSettings = () => showSettings = !showSettings
 </script>
 
 <div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in">
 	<div class="flex justify-between p-2 md:p-3 rounded items-center">
-		<div>
+		<div class="flex items-center gap-2">
+			{#if node?.id != "home"}
+				<div class="text-xl md:text-2xl font-bold text-green-500">
+					<Icon icon="ant-design:drag-outlined" />
+				</div>
+			{/if}
 			<p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
 			<!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
 		</div>
 		<div>
 			{#if node?.id != "home"}
 				{#if node?.hasOwnProperty("items")}
-						{#if node?.items?.length != 0}
-							<button on:click={handleSubPageView} class="bg-slate-800 p-1 md:p-2 rounded  text-lg md:text-2xl">
-								{#if viewSubPage}
-								<Icon icon="mdi:hide" />
-								{:else}
-								<Icon icon="mdi:eye" />
-								{/if}
-							</button>
-						{/if}
-				<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  text-lg md:text-2xl`}>
-				{#if needtoAddNewPage}
-					<Icon icon="icomoon-free:cross" />
+					{#if node?.items?.length != 0}
+						<button on:click={handleSubPageView} class="bg-slate-800 p-1 md:p-2 rounded  text-lg md:text-2xl">
+							{#if viewSubPage}
+							<Icon icon="mdi:hide" />
+							{:else}
+							<Icon icon="mdi:eye" />
+							{/if}
+						</button>
+					{/if}
+				{/if}
+				{#if showSettings}
+					{#if node?.hasOwnProperty("items")}
+						<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  text-lg md:text-2xl`}>
+							{#if needtoAddNewPage}
+								<Icon icon="icomoon-free:cross" />
+							{:else}
+								<Icon icon="carbon:add-filled" />
+							{/if}
+						</button>
+					{/if}
+				
+					<button on:click={handleUpdate} class="text-cyan-700 bg-cyan-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
+						<Icon icon="ic:twotone-drive-file-rename-outline" />
+					</button>
+					<button on:click={deleteNode} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
+						<Icon icon="material-symbols:delete" />
+					</button>
+					<button on:click={handleShowSettings} class="bg-purple-500 p-1 md:p-2 rounded  text-lg md:text-2xl">
+						<Icon icon="ph:dots-three-circle-vertical-fill" />
+					</button>
 				{:else}
-					<Icon icon="carbon:add-filled" />
+					<button on:click={handleShowSettings} class=" p-1 md:p-2 rounded  text-lg md:text-2xl">
+						<Icon icon="ph:dots-three-circle-vertical-fill" />
+					</button>
 				{/if}
-				</button>
-				{/if}
-			
-			<button on:click={handleUpdate} class="text-cyan-700 bg-cyan-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
-				<Icon icon="ic:twotone-drive-file-rename-outline" />
-			</button>
-			<button on:click={deleteNode} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
-				<Icon icon="material-symbols:delete" />
-			</button>
 			{/if}
-			<!-- <div class="text-red-500 p-2 rounded bg-red-200 text-2xl">
-				<Icon icon="ph:dots-three-circle-vertical-bold" />
-			</div> -->
 		</div>
 	</div>
 	<!-- =========== Add Sub page ============== -->
@@ -162,7 +177,7 @@
 	{/if}
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
-			<section class=" p-1 md:p-2 rounded transition-all ease-in" use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
+			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: true}}
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
