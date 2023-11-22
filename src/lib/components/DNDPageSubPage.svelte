@@ -72,25 +72,31 @@
 	}
 	let subPageName = ""
 	const handleAddSubPages = ()=>{
-		//Create a Node Object 
-		let  pageName = subPageName
-		let  pageURl = subPageName.toLowerCase().replace(/ /g, '-')
-		let pageObj = {
-			name : pageName, id: pageURl 
-		}
-		console.log(pageObj)
-		subPageName =""
-		//Add Node to Parent items 
-		if(!nodes[pageURl]){
-			nodes[node.id].items.push({id:pageURl})
-			//Add Node in main Obj
-			nodes = {...nodes,[pageURl]: pageObj}
-			console.log(nodes)
+		if(subPageName.length > 3 ){
+			//Create a Node Object 
+			let  pageName = subPageName
+			let  pageURl = subPageName.toLowerCase().replace(/ /g, '-')
+			let pageObj = {
+				name : pageName, id: pageURl 
+			}
+			console.log(pageObj)
+			subPageName =""
+			//Add Node to Parent items 
+			if(!nodes[pageURl]){
+				nodes[node.id].items.push({id:pageURl})
+				//Add Node in main Obj
+				nodes = {...nodes,[pageURl]: pageObj}
+				console.log(nodes)
+			}else{
+				alert("Duplicate page Name !")
+			}
+			
 		}else{
-			alert("Duplicate page Name !")
+			alert("Please Give a page Name !")
+
 		}
 		needtoAddNewPage = false
-}
+	}
 	let updateName = ""
 	let openUpdateSection = false 
 	const handleUpdate = () => {
