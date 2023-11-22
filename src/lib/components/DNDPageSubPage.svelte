@@ -103,8 +103,15 @@
 		needtoAddNewPage = false
 		openUpdateSection = !openUpdateSection
 		console.log("got Node to update", node)
-		updateName = node.id ;
-		
+		updateName = nodes?.[node.id]?.name ;
+	}
+	const handleUpdatePageName = () => {
+		if(updateName.length > 3 ){
+			nodes = {...nodes, [node.id]: {...node, name: updateName} }
+			openUpdateSection = false
+		}else{
+			alert("Please Enter a Name")
+		}
 	}
 	let showSettings = false ;
 	const handleShowSettings = () => showSettings = !showSettings
@@ -178,7 +185,7 @@
 	{#if openUpdateSection}
 		<div class="">
 			<input bind:value={updateName} class={inputStyle}/>
-			<button on:click={handleUpdate} class="bg-green-500/10 p-3 md:p-5 rounded">Update</button>
+			<button on:click={handleUpdatePageName} class="bg-green-500/10 p-3 md:p-5 rounded">Update</button>
 		</div>
 	{/if}
 	{#if viewSubPage}
