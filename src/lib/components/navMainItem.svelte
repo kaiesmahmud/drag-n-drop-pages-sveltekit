@@ -8,11 +8,15 @@
     }
 </script>
 <div class="bg-white/10 p-2 rounded relative">
-    <div class="  flex items-center justify-between gap-10 capitalize">
+    <div class="  flex items-center justify-between gap-10 capitalize transition-all ease-in">
         <p class="text-lg md:text-xl ">{nodes[mainItem.id]?.name || "Node Not Exist"}</p>
         {#if nodes[mainItem.id]?.items?.length > 0 }
             <button on:click={handleDropDown} class="text-lg lg:text-2xl p-1">
-                <Icon icon="ph:dots-three-circle-vertical-fill" />
+                {#if showDropdown}
+                    <Icon icon="icon-park-solid:up-c" />
+                {:else}
+                    <Icon icon="icon-park-solid:down-c" />
+                {/if}
             </button>
         {/if}
     </div>
