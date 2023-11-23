@@ -23,6 +23,8 @@
 	const logme = () =>{
 		console.log("log for -",node)
 	}
+	let deletePopUp = false ;
+	const handleDeletePopUp = ()=>deletePopUp = !deletePopUp
 	const deleteNode = () => {
 		// console.log("DeleteNode  ",node)
 			if (parentId) { 
@@ -117,7 +119,7 @@
 	const handleShowSettings = () => showSettings = !showSettings
 </script>
 
-<div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in">
+<div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in relative cursor-move">
 	<div class="flex justify-between p-2 md:p-3 rounded items-center">
 		<div class="flex items-center gap-2">
 			{#if node?.id != "home"}
@@ -155,7 +157,7 @@
 					<button on:click={handleUpdate} class="text-cyan-700 bg-cyan-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
 						<Icon icon="ic:twotone-drive-file-rename-outline" />
 					</button>
-					<button on:click={deleteNode} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
+					<button on:click={handleDeletePopUp} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
 						<Icon icon="material-symbols:delete" />
 					</button>
 					<button on:click={handleShowSettings} class="bg-purple-500 p-1 md:p-2 rounded  text-lg md:text-2xl">
@@ -169,6 +171,16 @@
 			{/if}
 		</div>
 	</div>
+	<!-- ===========Pop UP Delete Confirmation =============== -->
+	{#if deletePopUp}
+	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
+		<p class=" font-bold text-lg">Delete This Item ?</p>
+		<div>
+			<button on:click={deleteNode} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
+			<button on:click={handleDeletePopUp} class="p-2 md:p-3 rounded bg-teal-500">No</button>
+		</div>
+	</div>
+	{/if}
 	<!-- =========== Add Sub page ============== -->
 	{#if node?.hasOwnProperty("items")}
 		{#if needtoAddNewPage}
@@ -176,7 +188,7 @@
 				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page" />
 				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded py-3 px-2  md:p-5 flex text-xl">
 					<Icon icon="carbon:add-filled" />
-					<!-- <p class="text-sm">Add Page</p> -->
+					<p class="text-sm pl-2">Add</p>
 				</button>
 			</div>
 		{/if}
