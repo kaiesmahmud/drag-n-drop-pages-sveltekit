@@ -6,7 +6,7 @@
 	export let nodes 
 	export let node,parentId
 	
-	let inputStyle="p-3 md:p-5 bg-white/10 border-slate-500 focus:border-none w-2/3 rounded"
+	let inputStyle="p-3 md:p-5 bg-white/10 border-slate-500 focus:border-none w-1/2 rounded"
 
 	const flipDurationMs = 300;
 	function handleDndConsider(e) {
@@ -99,6 +99,8 @@
 		}
 		needtoAddNewPage = false
 	}
+	let updatePopUp = false
+	const handleUpdatePopUp = () => updatePopUp = !updatePopUp
 	let updateName = ""
 	let openUpdateSection = false 
 	const handleUpdate = () => {
@@ -111,6 +113,7 @@
 		if(updateName.length > 3 ){
 			nodes = {...nodes, [node.id]: {...node, name: updateName} }
 			openUpdateSection = false
+			updatePopUp = false
 		}else{
 			alert("Please Enter a Name")
 		}
@@ -174,10 +177,19 @@
 	<!-- ===========Pop UP Delete Confirmation =============== -->
 	{#if deletePopUp}
 	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
-		<p class=" font-bold text-lg">Delete This Item ?</p>
-		<div>
+		<p class=" font-semibold md:text-lg">Delete This Item ?</p>
+		<div class="">
 			<button on:click={deleteNode} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
 			<button on:click={handleDeletePopUp} class="p-2 md:p-3 rounded bg-teal-500">No</button>
+		</div>
+	</div>
+	{/if}
+	{#if updatePopUp}
+	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
+		<p class=" font-semibold md:text-lg">Update New Name?</p>
+		<div>
+			<button on:click={handleUpdatePageName} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
+			<button on:click={handleUpdatePopUp} class="p-2 md:p-3 rounded bg-teal-500">No</button>
 		</div>
 	</div>
 	{/if}
@@ -195,14 +207,17 @@
 	{/if}
 	<!-- ======= Update Page Name ========== -->
 	{#if openUpdateSection}
-		<div class="">
+		<div class="flex gap-1">
 			<input bind:value={updateName} class={inputStyle}/>
-			<button on:click={handleUpdatePageName} class="bg-green-500/10 p-3 md:p-5 rounded">Update</button>
+			<button on:click={handleUpdatePopUp} class="bg-green-500/20 p-3 md:p-5 w- rounded flex items-center text-xl">
+				<Icon icon="cil:check" />
+				<!-- <p class=" text-xs md:text-sm">Update</p> -->
+			</button>
 		</div>
 	{/if}
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
-			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false}}
+			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false ,}}
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
