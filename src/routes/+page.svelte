@@ -49,6 +49,7 @@
 		console.log("handleEditNavbar Clicked result - ", $editNavbar)
 		editNavbar.set(!$editNavbar)
 	}
+	
 </script>
 
 <svelte:head>
@@ -72,7 +73,7 @@
 			</div>
 		{/if}
 		{#if $editNavbar}
-			<ParentDnd handleEditNavbar={handleEditNavbar} {MenuListResult} nodes={$MenuListResult}/>
+			<ParentDnd handleEditNavbar={handleEditNavbar} {MenuListResult} nodes={$MenuListResult} />
 		{/if}
 	</div>
 </div>
