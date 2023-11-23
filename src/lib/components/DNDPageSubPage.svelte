@@ -123,15 +123,15 @@
 	}
 	let showSettings = false ;
 	const handleShowSettings = () => {
+		showSettings = !showSettings
 		
 		if($itemToShowSettings?.id == node.id){
-			showSettings = !showSettings
-			console.log("Matched the item !")
+			// console.log("Matched the item !")
 			openUpdateSection = false
 		}else{
-			showSettings = !showSettings
 			// console.log("Didn't Matched the item ! Changing that",itemToShowSettings)
 			itemToShowSettings.update((i)=>node)
+			showSettings = true
 			openUpdateSection = false
 		}
 	}
@@ -234,7 +234,7 @@
 	{/if}
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
-			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false ,type:"internal"}}
+			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false }}
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
