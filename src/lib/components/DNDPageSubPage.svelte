@@ -3,9 +3,11 @@
 	import { dndzone } from 'svelte-dnd-action';
 	import Icon from '@iconify/svelte';
 
-	export let nodes 
+	export let nodes ,itemToShowSettings ,itemToShow
 	export let node,parentId
-	
+	// console.log("got itemToShowSettings",itemToShow,itemToShowSettings,)
+
+
 	let inputStyle="p-3 md:p-5 bg-white/10 border-slate-500 focus:border-none w-1/2 rounded"
 
 	const flipDurationMs = 300;
@@ -16,7 +18,8 @@
 		node.items = e.detail.items;
 		nodes = {...nodes};
 		console.log(node);
-		console.log(nodes);
+		itemToShowSettings.update((i)=>({...i, name:"",id:''}))
+		// console.log(nodes);
 		// console.log(nodes.node1.items);
 	}
 
@@ -119,7 +122,19 @@
 		}
 	}
 	let showSettings = false ;
-	const handleShowSettings = () => showSettings = !showSettings
+	const handleShowSettings = () => {
+		
+		if($itemToShowSettings?.id == node.id){
+			showSettings = !showSettings
+			console.log("Matched the item !")
+			openUpdateSection = false
+		}else{
+			showSettings = !showSettings
+			// console.log("Didn't Matched the item ! Changing that",itemToShowSettings)
+			itemToShowSettings.update((i)=>node)
+			openUpdateSection = false
+		}
+	}
 </script>
 
 <div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in relative cursor-move">
@@ -134,8 +149,9 @@
 			<!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
 		</div>
 		<div>
+			
 			{#if node?.id != "home"}
-				{#if node?.hasOwnProperty("items")}
+				{#if node?.hasOwnProperty("items") }
 					{#if node?.items?.length != 0}
 						<button on:click={handleSubPageView} class="bg-slate-800 p-1 md:p-2 rounded  text-lg md:text-2xl">
 							{#if viewSubPage}
@@ -146,7 +162,7 @@
 						</button>
 					{/if}
 				{/if}
-				{#if showSettings}
+				{#if showSettings && ($itemToShowSettings.id == node.id)}
 					{#if node?.hasOwnProperty("items")}
 						<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  text-lg md:text-2xl`}>
 							{#if needtoAddNewPage}
@@ -167,16 +183,17 @@
 						<Icon icon="ph:dots-three-circle-vertical-fill" />
 					</button>
 				{:else}
-					<button on:click={handleShowSettings} class=" p-1 md:p-2 rounded  text-lg md:text-2xl">
+					<button on:click={handleShowSettings} class="bg-purple-500/10 p-1 md:p-2 rounded  text-lg md:text-2xl">
 						<Icon icon="ph:dots-three-circle-vertical-fill" />
 					</button>
 				{/if}
 			{/if}
+				
 		</div>
 	</div>
 	<!-- ===========Pop UP Delete Confirmation =============== -->
-	{#if deletePopUp}
-	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
+	{#if deletePopUp && ($itemToShowSettings.id == node.id)}
+	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-around gap-1 flex-wrap transition-all ease-in text-sm">
 		<p class=" font-semibold md:text-lg">Delete This Item ?</p>
 		<div class="">
 			<button on:click={deleteNode} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
@@ -184,7 +201,7 @@
 		</div>
 	</div>
 	{/if}
-	{#if updatePopUp}
+	{#if updatePopUp && ($itemToShowSettings.id == node.id)}
 	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
 		<p class=" font-semibold md:text-lg">Update New Name?</p>
 		<div>
@@ -194,7 +211,7 @@
 	</div>
 	{/if}
 	<!-- =========== Add Sub page ============== -->
-	{#if node?.hasOwnProperty("items")}
+	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id) && showSettings}
 		{#if needtoAddNewPage}
 			<div class="md:m-2 md:p-1 flex items-center gap-1">
 				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page" />
@@ -206,7 +223,7 @@
 		{/if}
 	{/if}
 	<!-- ======= Update Page Name ========== -->
-	{#if openUpdateSection}
+	{#if openUpdateSection && ($itemToShowSettings.id == node.id) && showSettings}
 		<div class="flex gap-1">
 			<input bind:value={updateName} class={inputStyle}/>
 			<button on:click={handleUpdatePopUp} class="bg-green-500/20 p-3 md:p-5 w- rounded flex items-center text-xl">
@@ -217,12 +234,12 @@
 	{/if}
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
-			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false ,}}
+			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false ,type:"internal"}}
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
-						<div animate:flip="{{duration: flipDurationMs}}" class="p-1 md:p-2 m-1 md:m-3">
-							<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} />
+						<div animate:flip="{{duration: flipDurationMs,}}" class="p-1 md:p-2 m-1 md:m-3">
+							<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} {itemToShow} {itemToShowSettings} />
 							<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
 						</div>
 					{/each}
