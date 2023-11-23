@@ -1,29 +1,10 @@
 <script>
     import DndPageSubPage from '$lib/components/DNDPageSubPage.svelte';
+    import { writable } from 'svelte/store';
 	export let MenuListResult,nodes ,handleEditNavbar
-	// const addNewNode = ()=>{
-	// 	console.log("addNewNode ")
-	// 	//First Add  to the Root Node Obj
-		
-	// 	// nodes = { ...nodes, node5:{ name:"hello", id: "hello"} }; //node without child
-	// 	nodes = { ...nodes, node5:{ name:"hello", id: "node5", items:[]} }; //node with child
-		
-	// 	//Add to node1 items list to show 
-		
-	// 	nodes['node1'].items.push({id:"node5"}) //EveryNode Have to add in Node1 or Home 
-	// 	console.log(nodes)
-	// }
-	// const addChildNode = ()=> {
-	// 	console.log("AddChildNode ");
-	// 	//Here Node5 will be dynamic
-		
-	// 	nodes.node5.items.push({id: "example",})
-	// 	nodes = { ...nodes, example:{ name:"ChangeName Here", id: "example"} }; //node without child
-	// 	console.log(nodes.node5.items)
-		
-	// }
-
 	let parentId ,newPageName;
+	
+
 
 	const handleAddNewPage = ()=> {
 		//Create a Node Object 
@@ -58,6 +39,9 @@
 		MenuListResult.update(()=> nodes)
 		handleEditNavbar()
 	}
+	let itemToShowSettings = writable({name:"",id:""})
+	console.log(itemToShowSettings)
+	console.log($itemToShowSettings)
 </script>
 
 
@@ -67,7 +51,7 @@
 </div>
 
 <div class="w-[90%] md:w-[80%] lg:w-[50%] p-1">
-	<DndPageSubPage  node={nodes.node1} bind:nodes={nodes} parentId={parentId}/>
+	<DndPageSubPage {itemToShowSettings} itemToShow={$itemToShowSettings}  node={nodes.node1} bind:nodes={nodes} parentId={parentId}  />
 </div>
 <button class="bg-green-500/20 p-5 rounded w-[30%] " on:click={handleSaveList}>Save List</button>
 
