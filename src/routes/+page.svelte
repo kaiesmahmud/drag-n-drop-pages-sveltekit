@@ -78,5 +78,5 @@
 	</div>
 </div>
 <footer class="m-2 text-center italic text-sm text-transparent capitalize bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-300">
-	Design & Developed by Kaies Mahmud Nehal | 2023 - November
+	Design & Developed by Kaies Mahmud Nehal | <br> 2023 - November <br> Build For MagicMind.me
 </footer>
