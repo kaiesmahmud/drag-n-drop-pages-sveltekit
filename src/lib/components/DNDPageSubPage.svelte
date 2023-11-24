@@ -81,7 +81,7 @@
 	}
 	let subPageName = ""
 	const handleAddSubPages = ()=>{
-		if(subPageName.length > 3 ){
+		if(12 > subPageName.length > 3 ){
 			//Create a Node Object 
 			let  pageName = subPageName
 			let  pageURl = subPageName.toLowerCase().replace(/ /g, '-')
@@ -101,7 +101,7 @@
 			}
 			
 		}else{
-			alert("Please Give a page Name !")
+			alert("Please Give a page Name  less-than 12 & Greater-than 3 character!")
 
 		}
 		needtoAddNewPage = false
