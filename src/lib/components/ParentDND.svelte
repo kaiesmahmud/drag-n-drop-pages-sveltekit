@@ -8,7 +8,7 @@
 
 	const handleAddNewPage = ()=> {
 		//Create a Node Object 
-		if(newPageName?.length > 3){
+		if( newPageName?.length > 3 && newPageName?.length < 13){
 			console.log("length ",newPageName.length)
 			let  pageName = newPageName
 			let  pageURl = newPageName?.toLowerCase().replace(/ /g, '-')
