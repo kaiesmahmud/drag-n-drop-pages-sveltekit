@@ -27,7 +27,11 @@
 		console.log("log for -",node)
 	}
 	let deletePopUp = false ;
-	const handleDeletePopUp = ()=>deletePopUp = !deletePopUp
+	const handleDeletePopUp = ()=>{
+		deletePopUp = !deletePopUp
+		openUpdateSection = false
+		needtoAddNewPage = false
+	}
 	const deleteNode = () => {
 		// console.log("DeleteNode  ",node)
 			if (parentId) { 
@@ -155,9 +159,9 @@
 					{#if node?.items?.length != 0}
 						<button on:click={handleSubPageView} class="bg-slate-800 p-1 md:p-2 rounded  text-lg md:text-2xl">
 							{#if viewSubPage}
-							<Icon icon="mdi:hide" />
+							<Icon icon="icon-park-outline:up" />
 							{:else}
-							<Icon icon="mdi:eye" />
+							<Icon icon="icon-park-outline:down" />
 							{/if}
 						</button>
 					{/if}
