@@ -179,12 +179,12 @@
 					<button on:click={handleDeletePopUp} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
 						<Icon icon="material-symbols:delete" />
 					</button>
-					<button on:click={handleShowSettings} class="bg-purple-500 p-1 md:p-2 rounded  text-lg md:text-2xl">
-						<Icon icon="ph:dots-three-circle-vertical-fill" />
+					<button on:click={handleShowSettings} class="bg-white/20 p-1 md:p-2 rounded  text-lg md:text-2xl">
+						<Icon icon="entypo:dots-three-vertical" />					
 					</button>
 				{:else}
-					<button on:click={handleShowSettings} class="bg-purple-500/10 p-1 md:p-2 rounded  text-lg md:text-2xl">
-						<Icon icon="ph:dots-three-circle-vertical-fill" />
+					<button on:click={handleShowSettings} class=" p-1 md:p-2 rounded  text-lg md:text-2xl">
+						<Icon icon="entypo:dots-three-vertical" />					
 					</button>
 				{/if}
 			{/if}
