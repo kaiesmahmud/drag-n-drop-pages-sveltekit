@@ -114,6 +114,7 @@
 	let openUpdateSection = false 
 	const handleUpdate = () => {
 		needtoAddNewPage = false
+		showSettings = false
 		if($itemToShowSettings?.id == node.id){
 			// console.log("Matched the item !")
 			openUpdateSection = !openUpdateSection
@@ -217,11 +218,13 @@
 						<Icon icon="material-symbols:delete" />
 					</button>
 					<button on:click={handleShowSettings} class="bg-white/20 p-1 md:p-2 rounded  md:text-2xl">
-						<Icon icon="entypo:dots-three-vertical" />					
+						<!-- <Icon icon="entypo:dots-three-vertical" />  -->
+						<Icon icon="uil:setting" />
 					</button>
 				{:else}
 					<button on:click={handleShowSettings} class=" p-1 md:p-2 rounded md:text-2xl">
-						<Icon icon="entypo:dots-three-vertical" />					
+						<!-- <Icon icon="entypo:dots-three-vertical" />	 -->
+						<Icon icon="uil:setting" />
 					</button>
 				{/if}
 			{/if}
