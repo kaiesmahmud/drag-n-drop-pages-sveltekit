@@ -115,6 +115,7 @@
 	const handleUpdate = () => {
 		needtoAddNewPage = false
 		showSettings = false
+		deletePopUp = false 
 		if($itemToShowSettings?.id == node.id){
 			// console.log("Matched the item !")
 			openUpdateSection = !openUpdateSection
