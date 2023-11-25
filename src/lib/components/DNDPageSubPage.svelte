@@ -31,6 +31,7 @@
 		deletePopUp = !deletePopUp
 		openUpdateSection = false
 		needtoAddNewPage = false
+		viewSubPage = false
 	}
 	const deleteNode = () => {
 		// console.log("DeleteNode  ",node)
@@ -152,7 +153,7 @@
 			<p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
 			<!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
 		</div>
-		<div>
+		<div class="flex items-center gap-1 flex-wrap">
 			
 			{#if node?.id != "home"}
 				{#if node?.hasOwnProperty("items") }
@@ -166,7 +167,14 @@
 						</button>
 					{/if}
 				{/if}
-				{#if showSettings && ($itemToShowSettings.id == node.id)}
+				<!-- ======Delete Buttons inline popup======= -->
+				{#if deletePopUp && ($itemToShowSettings.id == node.id)}
+					<div class="flex items-center justify-center gap-1">
+						<button on:click={deleteNode} class="p-1 md:p-2 rounded  text-sm bg-red-500">Delete</button>
+						<button on:click={handleDeletePopUp} class="p-1 md:p-2 rounded text-sm  bg-teal-500">No</button>
+					</div>
+				{/if}
+				{#if showSettings && ($itemToShowSettings.id == node.id) && !deletePopUp}
 					{#if node?.hasOwnProperty("items")}
 						<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  text-lg md:text-2xl`}>
 							{#if needtoAddNewPage}
@@ -197,13 +205,13 @@
 	</div>
 	<!-- ===========Pop UP Delete Confirmation =============== -->
 	{#if deletePopUp && ($itemToShowSettings.id == node.id)}
-	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-around gap-1 flex-wrap transition-all ease-in text-sm">
+	<!-- <div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-around gap-1 flex-wrap transition-all ease-in text-sm">
 		<p class=" font-semibold md:text-lg">Delete This Item ?</p>
 		<div class="">
 			<button on:click={deleteNode} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
 			<button on:click={handleDeletePopUp} class="p-2 md:p-3 rounded bg-teal-500">No</button>
 		</div>
-	</div>
+	</div> -->
 	{/if}
 	{#if updatePopUp && ($itemToShowSettings.id == node.id)}
 	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
