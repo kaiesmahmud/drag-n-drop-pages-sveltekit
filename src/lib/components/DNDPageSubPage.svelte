@@ -264,7 +264,7 @@
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
-						<div animate:flip="{{duration: flipDurationMs,}}" class=" md:p-2 m-1 md:m-3">
+						<div animate:flip="{{duration: flipDurationMs,}}" class=" md:p-2 m-1 my-3 md:m-3">
 							<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} {itemToShow} {itemToShowSettings} />
 							<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
 						</div>
