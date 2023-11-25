@@ -108,16 +108,22 @@
 		}
 		needtoAddNewPage = false
 	}
-	let updatePopUp = false
-	const handleUpdatePopUp = () => updatePopUp = !updatePopUp
+	// let updatePopUp = false
+	// const handleUpdatePopUp = () => updatePopUp = !updatePopUp
 	let updateName = ""
 	let openUpdateSection = false 
 	const handleUpdate = () => {
 		needtoAddNewPage = false
-		openUpdateSection = !openUpdateSection
+		if($itemToShowSettings?.id == node.id){
+			// console.log("Matched the item !")
+			openUpdateSection = !openUpdateSection
+		}else{
+			// console.log("Didn't Matched the item ! Changing that",itemToShowSettings)
+			itemToShowSettings.update((i)=>node)
+			openUpdateSection = false
+		}
 		console.log("got Node to update", node)
 		updateName = nodes?.[node.id]?.name ;
-		showSettings=!showSettings
 	}
 	const handleUpdatePageName = () => {
 		if(updateName.length > 3 ){
@@ -154,13 +160,13 @@
 				</div>
 			{/if}
 			{#if !openUpdateSection || !($itemToShowSettings.id == node.id)}
-			<div class="flex items-center">
+			<div class="flex items-center gap-1 md:gap-2">
 				{#if node?.id != "home"}
 					<div class="text-lg md:text-2xl font-bold text-green-500">
 						<Icon icon="ant-design:drag-outlined" />
 					</div>
 				{/if}
-				<p class="text-sm md:text-xl font-light italic md:font-semibold capitalize">{node?.name}</p> 
+				<button on:click={handleUpdate} class="text-sm md:text-xl font-light italic md:font-semibold capitalize">{node?.name}</button> 
 			</div>
 			{/if}
 			
