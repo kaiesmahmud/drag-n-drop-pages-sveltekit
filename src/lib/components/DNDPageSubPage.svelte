@@ -2,6 +2,7 @@
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';
 	import Icon from '@iconify/svelte';
+    import { onMount } from 'svelte';
 
 	export let nodes ,itemToShowSettings ,itemToShow
 	export let node,parentId
@@ -116,6 +117,7 @@
 		openUpdateSection = !openUpdateSection
 		console.log("got Node to update", node)
 		updateName = nodes?.[node.id]?.name ;
+		showSettings=!showSettings
 	}
 	const handleUpdatePageName = () => {
 		if(updateName.length > 3 ){
@@ -140,18 +142,45 @@
 			openUpdateSection = false
 		}
 	}
+	onMount(()=>{
+		if($itemToShowSettings.id != node.id){
+			openUpdateSection = false
+		}
+	})
 </script>
 
 <div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in relative cursor-move">
 	<div class="flex justify-between p-2 md:p-3 rounded items-center">
 		<div class="flex items-center gap-2">
-			{#if node?.id != "home"}
-				<div class="text-xl md:text-2xl font-bold text-green-500">
-					<Icon icon="ant-design:drag-outlined" />
+			{#if openUpdateSection && ($itemToShowSettings.id == node.id)}
+				<div class="flex gap-2">
+					<input bind:value={updateName} class={inputStyle}/>
+					<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black p-3 md:p-5 w- rounded flex items-center text-xl">
+						<Icon icon="icon-park-solid:correct" />					
+					</button>
+					<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black p-3 md:p-5 w- rounded flex items-center text-xl">
+						<Icon icon="icomoon-free:cross" />
+					</button>
 				</div>
 			{/if}
-			<p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
-			<!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
+			{#if !openUpdateSection}
+				 {#if node?.id != "home"}
+					 <div class="text-xl md:text-2xl font-bold text-green-500">
+						 <Icon icon="ant-design:drag-outlined" />
+					 </div>
+				 {/if}
+				 <p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
+				 <!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
+			{/if}
+			{#if updateName && !($itemToShowSettings.id == node.id)}
+				 {#if node?.id != "home"}
+					 <div class="text-xl md:text-2xl font-bold text-green-500">
+						 <Icon icon="ant-design:drag-outlined" />
+					 </div>
+				 {/if}
+				 <p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
+			{/if}
+			
 		</div>
 		<div class="flex items-center gap-1 flex-wrap">
 			
@@ -203,25 +232,17 @@
 				
 		</div>
 	</div>
-	<!-- ===========Pop UP Delete Confirmation =============== -->
-	{#if deletePopUp && ($itemToShowSettings.id == node.id)}
-	<!-- <div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-around gap-1 flex-wrap transition-all ease-in text-sm">
-		<p class=" font-semibold md:text-lg">Delete This Item ?</p>
-		<div class="">
-			<button on:click={deleteNode} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
-			<button on:click={handleDeletePopUp} class="p-2 md:p-3 rounded bg-teal-500">No</button>
-		</div>
-	</div> -->
-	{/if}
-	{#if updatePopUp && ($itemToShowSettings.id == node.id)}
-	<div class=" absolute top-0 left-0 w-full h-full z-10 rounded bg-black/70  flex items-center justify-center gap-1 flex-wrap transition-all ease-in ">
-		<p class=" font-semibold md:text-lg">Update New Name?</p>
-		<div>
-			<button on:click={handleUpdatePageName} class="p-2 md:p-3 rounded bg-red-500">Yes</button>
-			<button on:click={handleUpdatePopUp} class="p-2 md:p-3 rounded bg-teal-500">No</button>
-		</div>
+	
+	<!-- {#if updatePopUp && ($itemToShowSettings.id == node.id)}
+	<div class="flex gap-1">
+		<input bind:value={updateName} class={inputStyle}/>
+		<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black p-3 md:p-5 w- rounded flex items-center text-xl">
+			<Icon icon="icon-park-solid:correct" />					</button>
+		<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black p-3 md:p-5 w- rounded flex items-center text-xl">
+			<Icon icon="icomoon-free:cross" />
+		</button>
 	</div>
-	{/if}
+	{/if} -->
 	<!-- =========== Add Sub page ============== -->
 	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id) && showSettings}
 		{#if needtoAddNewPage}
@@ -234,16 +255,7 @@
 			</div>
 		{/if}
 	{/if}
-	<!-- ======= Update Page Name ========== -->
-	{#if openUpdateSection && ($itemToShowSettings.id == node.id) && showSettings}
-		<div class="flex gap-1">
-			<input bind:value={updateName} class={inputStyle}/>
-			<button on:click={handleUpdatePopUp} class="bg-green-500/20 p-3 md:p-5 w- rounded flex items-center text-xl">
-				<Icon icon="cil:check" />
-				<!-- <p class=" text-xs md:text-sm">Update</p> -->
-			</button>
-		</div>
-	{/if}
+
 	{#if viewSubPage}
 		{#if node?.hasOwnProperty("items")}
 			<section class=" p-1 md:p-2 rounded transition-all ease-in " use:dndzone={{items:node.items, flipDurationMs, centreDraggedOnCursor: false }}
