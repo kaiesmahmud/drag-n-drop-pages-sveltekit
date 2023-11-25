@@ -129,7 +129,7 @@
 		if(updateName.length > 3 ){
 			nodes = {...nodes, [node.id]: {...node, name: updateName} }
 			openUpdateSection = false
-			updatePopUp = false
+			// updatePopUp = false
 		}else{
 			alert("Please Enter a Name")
 		}
