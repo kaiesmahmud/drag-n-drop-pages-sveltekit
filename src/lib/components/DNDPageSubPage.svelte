@@ -142,43 +142,32 @@
 			openUpdateSection = false
 		}
 	}
-	onMount(()=>{
-		if($itemToShowSettings.id != node.id){
-			openUpdateSection = false
-		}
-	})
 </script>
 
 <div class="bg-white/10 w-full rounded p-1 md:p-2 transition-all ease-in relative cursor-move">
-	<div class="flex justify-between p-2 md:p-3 rounded items-center">
-		<div class="flex items-center gap-2">
+	<div class="flex justify-between p-1 md:p-3 rounded items-center">
+		<div class="flex items-center gap-1">
+			<!-- ========= Update Page Name ======== -->
 			{#if openUpdateSection && ($itemToShowSettings.id == node.id)}
-				<div class="flex gap-2">
+				<div class="flex gap-2 ">
 					<input bind:value={updateName} class={inputStyle}/>
-					<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black p-3 md:p-5 w- rounded flex items-center text-xl">
+					<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black px-5  rounded flex items-center text-xs md:text-sm">
 						<Icon icon="icon-park-solid:correct" />					
 					</button>
-					<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black p-3 md:p-5 w- rounded flex items-center text-xl">
+					<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black px-5  rounded flex items-center text-xs md:text-sm">
 						<Icon icon="icomoon-free:cross" />
 					</button>
 				</div>
 			{/if}
-			{#if !openUpdateSection}
-				 {#if node?.id != "home"}
-					 <div class="text-xl md:text-2xl font-bold text-green-500">
-						 <Icon icon="ant-design:drag-outlined" />
-					 </div>
-				 {/if}
-				 <p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
-				 <!-- <button on:click={logme} class="bg-teal-500/20 rounded p-2">LogMe</button> -->
-			{/if}
-			{#if updateName && !($itemToShowSettings.id == node.id)}
-				 {#if node?.id != "home"}
-					 <div class="text-xl md:text-2xl font-bold text-green-500">
-						 <Icon icon="ant-design:drag-outlined" />
-					 </div>
-				 {/if}
-				 <p class="text-base md:text-xl font-light md:font-semibold capitalize">{node?.name}</p> 
+			{#if !openUpdateSection || !($itemToShowSettings.id == node.id)}
+			<div class="flex items-center">
+				{#if node?.id != "home"}
+					<div class="text-lg md:text-2xl font-bold text-green-500">
+						<Icon icon="ant-design:drag-outlined" />
+					</div>
+				{/if}
+				<p class="text-sm md:text-xl font-light italic md:font-semibold capitalize">{node?.name}</p> 
+			</div>
 			{/if}
 			
 		</div>
@@ -205,7 +194,7 @@
 				{/if}
 				{#if showSettings && ($itemToShowSettings.id == node.id) && !deletePopUp}
 					{#if node?.hasOwnProperty("items")}
-						<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  text-lg md:text-2xl`}>
+						<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  md:text-2xl`}>
 							{#if needtoAddNewPage}
 								<Icon icon="icomoon-free:cross" />
 							{:else}
@@ -214,17 +203,17 @@
 						</button>
 					{/if}
 				
-					<button on:click={handleUpdate} class="text-cyan-700 bg-cyan-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
+					<button on:click={handleUpdate} class="text-cyan-700 bg-cyan-200 p-1 md:p-2 rounded  md:text-2xl">
 						<Icon icon="ic:twotone-drive-file-rename-outline" />
 					</button>
-					<button on:click={handleDeletePopUp} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  text-lg md:text-2xl">
+					<button on:click={handleDeletePopUp} class="text-red-500 bg-red-200 p-1 md:p-2 rounded  md:text-2xl">
 						<Icon icon="material-symbols:delete" />
 					</button>
-					<button on:click={handleShowSettings} class="bg-white/20 p-1 md:p-2 rounded  text-lg md:text-2xl">
+					<button on:click={handleShowSettings} class="bg-white/20 p-1 md:p-2 rounded  md:text-2xl">
 						<Icon icon="entypo:dots-three-vertical" />					
 					</button>
 				{:else}
-					<button on:click={handleShowSettings} class=" p-1 md:p-2 rounded  text-lg md:text-2xl">
+					<button on:click={handleShowSettings} class=" p-1 md:p-2 rounded md:text-2xl">
 						<Icon icon="entypo:dots-three-vertical" />					
 					</button>
 				{/if}
@@ -262,7 +251,7 @@
 							 on:consider={handleDndConsider} 
 							 on:finalize={handleDndFinalize}>		
 					{#each node.items as item(item.id)}
-						<div animate:flip="{{duration: flipDurationMs,}}" class="p-1 md:p-2 m-1 md:m-3">
+						<div animate:flip="{{duration: flipDurationMs,}}" class=" md:p-2 m-1 md:m-3">
 							<svelte:self bind:nodes={nodes} node={nodes[item.id]} parentId={node.id} {itemToShow} {itemToShowSettings} />
 							<!-- <svelte:self bind:nodes={nodes} node={nodes[item.id]} nodeChild={true} /> -->
 						</div>
