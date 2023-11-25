@@ -2,14 +2,13 @@
 	import { flip } from 'svelte/animate';
 	import { dndzone } from 'svelte-dnd-action';
 	import Icon from '@iconify/svelte';
-    import { onMount } from 'svelte';
 
 	export let nodes ,itemToShowSettings ,itemToShow
 	export let node,parentId
 	// console.log("got itemToShowSettings",itemToShow,itemToShowSettings,)
 
 
-	let inputStyle="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[40%] rounded"
+	let inputStyle="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[70%] rounded"
 
 	const flipDurationMs = 300;
 	function handleDndConsider(e) {
@@ -152,12 +151,6 @@
 			{#if openUpdateSection && ($itemToShowSettings.id == node.id)}
 				<div class="flex md:gap-2 ">
 					<input bind:value={updateName} class={inputStyle}/>
-					<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black px-3 md:px-5  rounded flex items-center text-xs md:text-sm">
-						<Icon icon="icon-park-solid:correct" />					
-					</button>
-					<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black px-3 md:px-5  rounded flex items-center text-xs md:text-sm">
-						<Icon icon="icomoon-free:cross" />
-					</button>
 				</div>
 			{/if}
 			{#if !openUpdateSection || !($itemToShowSettings.id == node.id)}
@@ -192,6 +185,17 @@
 						<button on:click={deleteNode} class="p-1 md:p-2 rounded  text-sm bg-red-500">Delete</button>
 						<button on:click={handleDeletePopUp} class="p-1 md:p-2 rounded text-sm  bg-teal-500">No</button>
 					</div>
+				{/if}
+				<!-- =======UpdateName -- Buttons========= -->
+				{#if openUpdateSection && ($itemToShowSettings.id == node.id)}
+				<div class="flex gap-1 w-full h-full">
+					<button on:click={handleUpdatePageName} class="bg-green-500/60 hover:bg-green-500 hover:text-black p-3 md:px-5  rounded flex items-center text-xs md:text-sm">
+						<Icon icon="icon-park-solid:correct" />					
+					</button>
+					<button on:click={handleUpdate} class="bg-red-500/60 hover:bg-red-500 hover:text-black p-3 md:px-5  rounded flex items-center text-xs md:text-sm">
+						<Icon icon="icomoon-free:cross" />
+					</button>
+				</div>
 				{/if}
 				{#if showSettings && ($itemToShowSettings.id == node.id) && !deletePopUp}
 					{#if node?.hasOwnProperty("items")}
@@ -236,14 +240,16 @@
 	<!-- =========== Add Sub page ============== -->
 	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id)}
 		{#if needtoAddNewPage}
-			<div class="pl-5 md:m-2 md:p-1 flex items-center gap-1">
-				<input bind:value={subPageName} class="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[40%] rounded" placeholder="Sub-Page" />
-				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded  p-2 md:p-5 ">
-					<Icon icon="carbon:add-filled" />
-				</button>
-				<button on:click={handleNeedtoAddNewPage} class="bg-red-200 text-red-500 rounded  p-2 md:p-5 ">
-					<Icon icon="icomoon-free:cross" />
-				</button>
+			<div class="md:m-2 md:p-1 flex items-center  gap-1">
+				<input bind:value={subPageName} class="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[60%] rounded" placeholder="Sub-Page" />
+				<div>
+					<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded  p-2 md:p-5 ">
+						<Icon icon="carbon:add-filled" />
+					</button>
+					<button on:click={handleNeedtoAddNewPage} class="bg-red-200 text-red-500 rounded  p-2 md:p-5 ">
+						<Icon icon="icomoon-free:cross" />
+					</button>
+				</div>
 			</div>
 		{/if}
 	{/if}
