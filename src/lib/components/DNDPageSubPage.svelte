@@ -236,13 +236,12 @@
 	<!-- =========== Add Sub page ============== -->
 	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id) && !showSettings}
 		{#if needtoAddNewPage}
-			<div class="md:m-2 md:p-1 flex items-center  gap-1">
-				<input bind:value={subPageName} class="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[60%] rounded" placeholder="Sub-Page" />
+			<div class="md:m-2 md:p-1 flex items-center  gap-1 pl-2 justify-center">
+				<input bind:value={subPageName} class="p-1  text-sm md:text-base md:p-4 bg-white/10 border-slate-500 focus:border-none w-[60%] rounded" placeholder="Sub-Page" />
 				<div>
-					<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded  p-2 md:p-5 ">
-						<Icon icon="carbon:add-filled" />
-					</button>
-					<button on:click={handleNeedtoAddNewPage} class="bg-red-200 text-red-500 rounded  p-2 md:p-5 ">
+					<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded  p-1 md:p-4 ">
+						<Icon icon="icon-park-outline:correct" />					</button>
+					<button on:click={handleNeedtoAddNewPage} class="bg-red-200 text-red-500 rounded  p-1 md:p-4 ">
 						<Icon icon="icomoon-free:cross" />
 					</button>
 				</div>
