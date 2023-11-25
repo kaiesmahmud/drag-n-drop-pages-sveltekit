@@ -199,12 +199,8 @@
 				{/if}
 				{#if showSettings && ($itemToShowSettings.id == node.id) && !deletePopUp}
 					{#if node?.hasOwnProperty("items")}
-						<button on:click={handleNeedtoAddNewPage} class={` ${needtoAddNewPage?'bg-red-200 text-red-500 ':" bg-green-200 text-green-800 "} p-1 md:p-2 rounded  md:text-2xl`}>
-							{#if needtoAddNewPage}
-								<Icon icon="icomoon-free:cross" />
-							{:else}
+						<button on:click={handleNeedtoAddNewPage} class={` bg-green-200 text-green-800  p-1 md:p-2 rounded  md:text-2xl`}>
 								<Icon icon="carbon:add-filled" />
-							{/if}
 						</button>
 					{/if}
 				
@@ -238,7 +234,7 @@
 	</div>
 	{/if} -->
 	<!-- =========== Add Sub page ============== -->
-	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id)}
+	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id) && !showSettings}
 		{#if needtoAddNewPage}
 			<div class="md:m-2 md:p-1 flex items-center  gap-1">
 				<input bind:value={subPageName} class="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[60%] rounded" placeholder="Sub-Page" />
