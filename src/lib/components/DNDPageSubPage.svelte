@@ -9,7 +9,7 @@
 	// console.log("got itemToShowSettings",itemToShow,itemToShowSettings,)
 
 
-	let inputStyle="p-3 md:p-5 bg-white/10 border-slate-500 focus:border-none w-1/2 rounded"
+	let inputStyle="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[40%] rounded"
 
 	const flipDurationMs = 300;
 	function handleDndConsider(e) {
@@ -80,6 +80,7 @@
 	const handleNeedtoAddNewPage = ()=>{
 		openUpdateSection = false
 		needtoAddNewPage = !needtoAddNewPage
+		showSettings=!showSettings
 	}
 	let subPageName = ""
 	const handleAddSubPages = ()=>{
@@ -149,12 +150,12 @@
 		<div class="flex items-center gap-1">
 			<!-- ========= Update Page Name ======== -->
 			{#if openUpdateSection && ($itemToShowSettings.id == node.id)}
-				<div class="flex gap-2 ">
+				<div class="flex md:gap-2 ">
 					<input bind:value={updateName} class={inputStyle}/>
-					<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black px-5  rounded flex items-center text-xs md:text-sm">
+					<button on:click={handleUpdatePageName} class="bg-green-500/20 hover:bg-green-500 hover:text-black px-3 md:px-5  rounded flex items-center text-xs md:text-sm">
 						<Icon icon="icon-park-solid:correct" />					
 					</button>
-					<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black px-5  rounded flex items-center text-xs md:text-sm">
+					<button on:click={handleUpdate} class="bg-red-500/20 hover:bg-red-500 hover:text-black px-3 md:px-5  rounded flex items-center text-xs md:text-sm">
 						<Icon icon="icomoon-free:cross" />
 					</button>
 				</div>
@@ -171,7 +172,7 @@
 			{/if}
 			
 		</div>
-		<div class="flex items-center gap-1 flex-wrap">
+		<div class="flex items-center gap-1 ">
 			
 			{#if node?.id != "home"}
 				{#if node?.hasOwnProperty("items") }
@@ -233,13 +234,15 @@
 	</div>
 	{/if} -->
 	<!-- =========== Add Sub page ============== -->
-	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id) && showSettings}
+	{#if node?.hasOwnProperty("items") && ($itemToShowSettings.id == node.id)}
 		{#if needtoAddNewPage}
-			<div class="md:m-2 md:p-1 flex items-center gap-1">
-				<input bind:value={subPageName} class={inputStyle} placeholder="Add Sub-Page" />
-				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded py-3 px-2  md:p-5 flex text-xl">
+			<div class="pl-5 md:m-2 md:p-1 flex items-center gap-1">
+				<input bind:value={subPageName} class="p-1 text-sm md:text-base md:p-5 bg-white/10 border-slate-500 focus:border-none w-[40%] rounded" placeholder="Sub-Page" />
+				<button on:click={handleAddSubPages} class="text-green-800 bg-green-200 rounded  p-2 md:p-5 ">
 					<Icon icon="carbon:add-filled" />
-					<p class="text-sm pl-2">Add</p>
+				</button>
+				<button on:click={handleNeedtoAddNewPage} class="bg-red-200 text-red-500 rounded  p-2 md:p-5 ">
+					<Icon icon="icomoon-free:cross" />
 				</button>
 			</div>
 		{/if}
