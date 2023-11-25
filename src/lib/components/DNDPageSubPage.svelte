@@ -120,7 +120,7 @@
 		}else{
 			// console.log("Didn't Matched the item ! Changing that",itemToShowSettings)
 			itemToShowSettings.update((i)=>node)
-			openUpdateSection = false
+			openUpdateSection = !openUpdateSection
 		}
 		console.log("got Node to update", node)
 		updateName = nodes?.[node.id]?.name ;
